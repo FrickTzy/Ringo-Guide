@@ -1,4 +1,4 @@
-from pygame import image, transform, draw
+from pygame import image, transform, draw, mouse
 
 
 class LessonWindowBackground:
@@ -14,6 +14,9 @@ class LessonWindowBackground:
         self.__corner.show(background_image=self.__current_background_image)
         screen.blit(self.__current_background_image, (0, 0))
 
+    def check_if_click(self):
+        return self.__corner.check_if_click(mouse_pos=mouse.get_pos())
+
     def update_size(self, window_size):
         self.__corner.update_size(window_size=window_size)
         self.__current_background_image = transform.scale(self.__background_image, window_size)
@@ -28,6 +31,9 @@ class Corner:
     def show(self, background_image):
         draw.polygon(background_image, self.__COLOR, self.__pos.left_corner_coordinates)
         draw.polygon(background_image, self.__COLOR, self.__pos.right_corner_coordinates)
+
+    def check_if_click(self, mouse_pos):
+        return self.__pos.check_if_click(mouse_pos=mouse_pos)
 
     def update_size(self, window_size):
         self.__pos.update_size(window_size)
@@ -55,3 +61,10 @@ class CornerPos:
     def __corner_size(self):
         window_height = self.__window_size[1]
         return window_height // self.__CORNER_SIZE_RATIO
+
+    def check_if_click(self, mouse_pos):
+        mouse_x, mouse_y = mouse_pos
+        mouse_area = mouse_x + mouse_y
+        if mouse_area < self.__corner_size:
+            return True
+        return False
