@@ -6,7 +6,6 @@ class KanjiSaver:
 
     def __init__(self):
         self.__kanji_list = self.__load_kanji()
-        print(self.__kanji_list)
 
     def __load_kanji(self):
         with open(self.__JSON_PATH, 'r', encoding='utf-8') as json:

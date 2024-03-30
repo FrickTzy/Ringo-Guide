@@ -7,7 +7,7 @@ from .lesson_window_background import LessonWindowBackground
 
 
 class LessonWindow:
-    def __init__(self, window_manager, window, kanji_saver):
+    def __init__(self, window_manager, window, kanji_saver, voice_pronunciation):
         pygame.init()
         self.__window = window
         self.__background = LessonWindowBackground(window_size=self.__window.get_size)
@@ -15,7 +15,8 @@ class LessonWindow:
         self.__kanji_manager = KanjiManager()
         self.__event_handler = LessonWindowEventHandler(window_manager=window_manager, background=self.__background,
                                                         window=window, kanji_manager=self.__kanji_manager,
-                                                        font=self.__font, kanji_saver=kanji_saver)
+                                                        font=self.__font, kanji_saver=kanji_saver,
+                                                        voice_pronunciation=voice_pronunciation)
         self.__pos = LessonWindowPos(window=self.__window)
 
     def run(self):

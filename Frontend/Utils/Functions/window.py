@@ -6,7 +6,7 @@ class Window:
     def __init__(self):
         self.__width, self.__height = WINDOW_SIZE
         self.__window = display.set_mode((self.__width, self.__height), RESIZABLE)
-        display.set_caption("Japanese Kanji Learning")
+        display.set_caption("Ringo Guide")
         self.__check_full_screen()
 
     def __check_full_screen(self, full_screen=False):

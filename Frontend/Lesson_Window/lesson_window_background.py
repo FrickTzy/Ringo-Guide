@@ -14,8 +14,11 @@ class LessonWindowBackground:
         self.__corner.show(background_image=self.__current_background_image)
         screen.blit(self.__current_background_image, (0, 0))
 
-    def check_if_click(self):
-        return self.__corner.check_if_click(mouse_pos=mouse.get_pos())
+    def check_if_click_left_corner(self):
+        return self.__corner.check_if_click_left_corner(mouse_pos=mouse.get_pos())
+
+    def check_if_click_right_corner(self):
+        return self.__corner.check_if_click_right_corner(mouse_pos=mouse.get_pos())
 
     def update_size(self, window_size):
         self.__corner.update_size(window_size=window_size)
@@ -32,8 +35,11 @@ class Corner:
         draw.polygon(background_image, self.__COLOR, self.__pos.left_corner_coordinates)
         draw.polygon(background_image, self.__COLOR, self.__pos.right_corner_coordinates)
 
-    def check_if_click(self, mouse_pos):
-        return self.__pos.check_if_click(mouse_pos=mouse_pos)
+    def check_if_click_left_corner(self, mouse_pos):
+        return self.__pos.check_if_click_left_corner(mouse_pos=mouse_pos)
+
+    def check_if_click_right_corner(self, mouse_pos):
+        return self.__pos.check_if_click_right_corner(mouse_pos=mouse_pos)
 
     def update_size(self, window_size):
         self.__pos.update_size(window_size)
@@ -62,9 +68,19 @@ class CornerPos:
         window_height = self.__window_size[1]
         return window_height // self.__CORNER_SIZE_RATIO
 
-    def check_if_click(self, mouse_pos):
+    def check_if_click_left_corner(self, mouse_pos):
         mouse_x, mouse_y = mouse_pos
         mouse_area = mouse_x + mouse_y
         if mouse_area < self.__corner_size:
+            return True
+        return False
+
+    def check_if_click_right_corner(self, mouse_pos):
+        mouse_x, mouse_y = mouse_pos
+        if mouse_y > self.__corner_size:
+            return False
+        mouse_area = mouse_x - mouse_y
+        window_width = self.__window_size[0]
+        if (window_width - self.__corner_size) < mouse_area < window_width:
             return True
         return False
