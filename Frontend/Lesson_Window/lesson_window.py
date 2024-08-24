@@ -1,4 +1,5 @@
 import pygame
+from re import split
 from .kanji_manager import KanjiManager
 from .lesson_window_font import LessonWindowFont
 from .lesson_window_pos import LessonWindowPos
@@ -28,10 +29,19 @@ class LessonWindow:
         current_kanji = self.__kanji_manager.current_kanji
         kanji_surface = self.__font.render_text(text=current_kanji["Kanji"])
         reading_surface = self.__font.render_text(text=current_kanji["Reading"])
-        meaning_surface = self.__font.render_text(text=current_kanji["Meaning"])
+        meaning_surface = self.__get_meaning_surface(meanings=current_kanji["Meaning"])
         kanji_rect = kanji_surface.get_rect(center=(self.__window.width // 2, self.__pos.kanji_y))
         reading_rect = reading_surface.get_rect(center=(self.__window.width // 2, self.__pos.reading_y))
         meaning_rect = meaning_surface.get_rect(center=(self.__window.width // 2, self.__pos.meaning_y))
         self.__window.screen.blit(kanji_surface, kanji_rect)
         self.__window.screen.blit(reading_surface, reading_rect)
         self.__window.screen.blit(meaning_surface, meaning_rect)
+
+    def __get_meaning_surface(self, meanings: str):
+        padding = 100
+        meaning_surface = self.__font.render_text(text=meanings)
+        if meaning_surface.get_width() > self.__window.width - padding:
+            meanings = split('; |, ', meanings)[0]
+            meaning_surface = self.__font.render_text(text=meanings)
+        return meaning_surface
+

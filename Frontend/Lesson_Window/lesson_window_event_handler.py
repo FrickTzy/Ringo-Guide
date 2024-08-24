@@ -29,8 +29,8 @@ class LessonWindowEventHandler(WindowEventInterface):
     def __check_if_quit(self, event):
         if not self.check_if_quit(event=event):
             return
-        self.__kanji_saver.overwrite_json()
-        self.__voice_pronunciation.clear_cache()
+        Thread(target=self.__kanji_saver.save_json, daemon=False).start()
+        Thread(target=self.__voice_pronunciation.clear_cache, daemon=False).start()
 
     def __check_if_key_down(self, event):
         if not event.type == pygame.KEYDOWN:
