@@ -16,22 +16,21 @@ class KanjiSaver:
         if self.__USE_ONLINE_DB:
             response = get(f'{self.__DB_URL}/user_files/DudeTzy/kanji.json')
             if (saved_json := response.json()) is None:
-                kanji_list = []
-            else:
-                kanji_list = saved_json
+                return
+            kanji_list = saved_json
         else:
             with open(self.__JSON_PATH, 'r', encoding='utf-8') as json:
                 kanji_list = load(json)
-        self.__kanji_list = kanji_list
+        self.__kanji_list.extend(kanji_list)
 
-    def append_kanji_dict(self, kanji_info):
+    def append_kanji_dict(self, kanji_info) -> None:
         if kanji_info in self.__kanji_list:
             return
         self.__kanji_list.append(kanji_info)
 
-    def save_json(self):
+    def save_json(self) -> None:
         if self.__USE_ONLINE_DB:
             put(f'{self.__DB_URL}/user_files/DudeTzy/kanji.json', json=self.__kanji_list)
         else:
             with open(self.__JSON_PATH, 'w', encoding='utf-8') as json_file:
-                return dump(self.__kanji_list, json_file)
+                dump(self.__kanji_list, json_file)
